@@ -208,6 +208,7 @@ const workspace = process.env.GITHUB_WORKSPACE;
 
 function getPackageJson() {
   const pathToPackage = path.join(workspace, 'manifest.json');
+  console.log(pathToPackage);
   if (!existsSync(pathToPackage)) throw new Error("manifest.json could not be found in your project's root.");
   return require(pathToPackage);
 }
