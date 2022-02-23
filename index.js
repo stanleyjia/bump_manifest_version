@@ -4,9 +4,9 @@ const { existsSync } = require('fs');
 const { EOL } = require('os');
 const path = require('path');
 
-// Change working directory if user defined PACKAGEJSON_DIR
-if (process.env.PACKAGEJSON_DIR) {
-  process.env.GITHUB_WORKSPACE = `${process.env.GITHUB_WORKSPACE}/${process.env.PACKAGEJSON_DIR}`;
+// Change working directory if user defined MANIFESTJSON_DIR
+if (process.env.MANIFESTJSON_DIR) {
+  process.env.GITHUB_WORKSPACE = `${process.env.GITHUB_WORKSPACE}/${process.env.MANIFESTJSON_DIR}`;
   process.chdir(process.env.GITHUB_WORKSPACE);
 }
 
@@ -123,10 +123,10 @@ const workspace = process.env.GITHUB_WORKSPACE;
     return;
   }
 
-  // case: if user sets push to false, to skip pushing new tag/package.json
+  // case: if user sets push to false, to skip pushing new tag/manifest.json
   const push = process.env['INPUT_PUSH'];
   if (push === 'false' || push === false) {
-    exitSuccess('User requested to skip pushing new tag and package.json. Finished.');
+    exitSuccess('User requested to skip pushing new tag and manifest.json. Finished.');
     return;
   }
 
@@ -154,7 +154,7 @@ const workspace = process.env.GITHUB_WORKSPACE;
     }
     console.log('currentBranch:', currentBranch);
     // do it in the current checked out github branch (DETACHED HEAD)
-    // important for further usage of the package.json version
+    // important for further usage of the manifest.json version
     await runInWorkspace('npm', ['version', '--allow-same-version=true', '--git-tag-version=false', current]);
     console.log('current:', current, '/', 'version:', version);
     let newVersion = execSync(`npm version --git-tag-version=false ${version}`).toString().trim().replace(/^v/, '');
